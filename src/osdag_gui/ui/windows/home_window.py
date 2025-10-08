@@ -117,6 +117,7 @@ class HomeWindow(QWidget):
     openModule = Signal(str)
     cardOpenClicked = Signal(str)  # Signal to propagate upward
     triggerLoadOsi = Signal()
+    triggerPluginManager = Signal()
     downloadDatabase = Signal(str, str)
     def __init__(self):
         super().__init__()
@@ -196,6 +197,9 @@ class HomeWindow(QWidget):
 
             if label.strip() == "Import":
                 button.clicked.connect(lambda checked=False: self.triggerLoadOsi.emit())
+            if label.strip() == "Plugins":
+                self.triggerPluginManager.connect(self._open_plugin_manager)
+                button.clicked.connect(lambda checked=False: self.triggerPluginManager.emit())
             
             self.buttons.append(button)
             self.button_group.addButton(button, i) # Add button to the group with an ID
@@ -513,6 +517,12 @@ class HomeWindow(QWidget):
 
     def set_active_button(self, module):
         self.nav_bar.set_active_button_by_name(module)
+
+    def _open_plugin_manager(self):
+        from osdag_gui.ui.components.dialogs.plugin_manager_dialog import PluginManagerDialog
+        self.plugin_manager_dialog = PluginManagerDialog(parent=self)
+        print(f"Opening Plugin Manager")
+        self.plugin_manager_dialog.show()
 
 # if __name__ == "__main__":
 #     sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
