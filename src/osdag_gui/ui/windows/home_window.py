@@ -58,6 +58,7 @@ class ThemeToggleButton(QPushButton):
         if self.parent() and hasattr(self.parent(), 'toggle_theme'):
             self.parent().toggle_theme(self.is_dark_mode)
 
+
 class BackgroundSvgWidget(QWidget):
     def __init__(self, svg_path, parent=None):
         super().__init__(parent)
@@ -81,6 +82,8 @@ class BackgroundSvgWidget(QWidget):
         super().paintEvent(event)
 
 # --- End of background_svg_widget.py content ---
+
+
 class FadeWidget(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -112,6 +115,7 @@ class FadeWidget(QWidget):
         # It's crucial to call this AFTER your custom background drawing.
         super().paintEvent(event)
 
+
 class HomeWindow(QWidget):
     openProject = Signal(dict)
     openModule = Signal(str)
@@ -119,6 +123,8 @@ class HomeWindow(QWidget):
     triggerLoadOsi = Signal()
     triggerPluginManager = Signal()
     downloadDatabase = Signal(str, str)
+    openAddOn = Signal(str)  # Signal to open Plugins/Add-Ons
+
     def __init__(self):
         super().__init__()
         self.setStyleSheet("")
@@ -134,7 +140,7 @@ class HomeWindow(QWidget):
         main_v_layout = QVBoxLayout(self)
         main_v_layout.setSpacing(0)
         main_v_layout.setContentsMargins(0, 0, 0, 0)
-        
+
         # Horizontal line separating titleBar and tabWidget
         self.bottom_line = QWidget()
         self.bottom_line.setObjectName("BottomLine")
@@ -189,7 +195,7 @@ class HomeWindow(QWidget):
 
         # Instantiate and add the Buttons
         for i, (black_icon, white_icon, label, submenu_data) in enumerate(floating_navbar):
-            if i==0 or i==1:
+            if i == 0 or i == 1:
                 button = DropDownButton(black_icon, white_icon, label, submenu_data)
                 button.downloadDatabase.connect(self.downloadDatabase)
             else:
@@ -200,11 +206,11 @@ class HomeWindow(QWidget):
             if label.strip() == "Plugins":
                 self.triggerPluginManager.connect(self._open_plugin_manager)
                 button.clicked.connect(lambda checked=False: self.triggerPluginManager.emit())
-            
+
             self.buttons.append(button)
             self.button_group.addButton(button, i) # Add button to the group with an ID
             self.top_widget_2.addWidget(button)
-        
+
         self.theme_toggle = ThemeToggleButton(self)
         # self.theme_toggle.clicked.connect(self.toggle_theme)
         self.top_widget_2.addWidget(self.theme_toggle)
@@ -218,7 +224,6 @@ class HomeWindow(QWidget):
         self.middle_top_svg_layout_wrapper_widget = QWidget() # The wrapper widget
         self.middle_top_svg_layout_wrapper_widget.setStyleSheet("background: transparent;") # Explicit solid background
         self.middle_top_svg_layout_wrapper = QHBoxLayout(self.middle_top_svg_layout_wrapper_widget) # Layout inside wrapper
-
         self.middle_top_svg_widget = QSvgWidget()
         self.middle_top_svg_widget.load(":/vectors/Osdag_tagline.svg")
         self.middle_top_svg_widget.setFixedSize(420, 35)
@@ -268,7 +273,7 @@ class HomeWindow(QWidget):
 
         self.svg_card_area = QWidget()
         self.svg_card_layout = QVBoxLayout(self.svg_card_area)
-        self.svg_card_layout.setContentsMargins(10,10,10,10)
+        self.svg_card_layout.setContentsMargins(10, 10, 10, 10)
         self.svg_card_layout.setSpacing(10)
         self.svg_card_layout.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignHCenter)
 
@@ -311,7 +316,6 @@ class HomeWindow(QWidget):
         # content_v_layout.addWidget(self.bottom_right_container)
 
         main_h_layout.addWidget(self.content, 8)
-                
         main_v_layout.addLayout(main_h_layout)
 
         self.show_home()
@@ -382,6 +386,7 @@ class HomeWindow(QWidget):
         elif isinstance(menu_bar_data, list):
             # zero level menu bar
             svg_card_widget = SvgCardContainer(menu_bar_data)
+            svg_card_widget.cardOpenClicked.connect(self.handle_card_open_clicked)
             self._clear_layout(self.svg_card_layout)
 
             label = QLabel(name)
@@ -408,7 +413,7 @@ class HomeWindow(QWidget):
             self._clear_layout(self.svg_card_layout)
 
             self.primary_menu_container.show()
-            default_btn = None 
+            default_btn = None
             toggle = True
             self.primary_menu_layout.addStretch(1)
             for i in menu_bar_data.keys():
@@ -477,9 +482,9 @@ class HomeWindow(QWidget):
         self.secondary_menu_container.hide()
         self.secondary_menu_hidden = True
 
-        default_btn = None 
+        default_btn = None
         toggle = True
-        
+
         self.secondary_menu_layout.addStretch(1)
         for i in data.keys():
             internal_dat = data.get(i)
@@ -494,7 +499,6 @@ class HomeWindow(QWidget):
         self._animate_secondary_menu(True)
         # set first Menu as Default
         self.menu_bar(data.get(default_btn[0]), default_btn[1])
-
 
     def menu_bar(self, data, clicked_button=None):
         """
@@ -530,4 +534,3 @@ class HomeWindow(QWidget):
 #     window = HomeWindow()
 #     window.show()
 #     sys.exit(app.exec())
-

@@ -27,7 +27,9 @@ from osdag_gui.data.database.database_config import PROJECT_PATH, ID, update_pro
 
 from osdag_gui.data.database.database_config import get_module_function
 from osdag_core.Common import *
+# ---- Modues Imports ----
 from osdag_core.design_type.connection.fin_plate_connection import FinPlateConnection
+from plugins.purlin.flexure_purlin import Flexure_Purlin
 import openpyxl
 
 class MainWindow(QMainWindow):
@@ -502,6 +504,8 @@ class MainWindow(QMainWindow):
     def handle_card_open_clicked(self, card_title):
         if card_title == "Fin Plate":
             self.open_fin_plate_page()
+        if card_title == "Purlin Designer":
+            self.open_purlin_designer_page()
 
     #-------------Functions-to-load-modules-in-Tabwidget-START---------------------------
 
@@ -538,6 +542,39 @@ class MainWindow(QMainWindow):
         current_tab_data = self.tab_widget_content[index]
         self.update_docking_icons(current_tab_data[1], current_tab_data[2], current_tab_data[3], current_tab_data[4])
     
+    def open_purlin_designer_page(self):
+        title = 'Purlin Designer'
+        self.clear_layout(self.main_widget_layout)
+        purlin_designer = CustomWindow(title, Flexure_Purlin, parent=self)
+
+        # Load the last Design Inputs-start------------------------------------
+        last_design_folder = os.path.join('ResourceFiles', 'last_designs')
+        last_design_file = str(purlin_designer.backend.module_name()).replace(' ', '') + ".osi"
+        last_design_file = os.path.join(last_design_folder, last_design_file)
+        last_design_dictionary = {}
+
+        # Create folder if it doesn't exist
+        if not os.path.isdir(last_design_folder):
+            os.makedirs(last_design_folder)
+
+        # Load previous design if file exists
+        if os.path.isfile(last_design_file):
+            with open(str(last_design_file), 'r') as last_design:
+                last_design_dictionary = yaml.safe_load(last_design)
+                purlin_designer.setDictToUserInputs(last_design_dictionary)
+        # Load the last Design Inputs-end------------------------------------
+
+        self.main_widget_instance = purlin_designer
+        purlin_designer.openNewTab.connect(self.handle_add_tab)
+        purlin_designer.downloadDatabase.connect(self.download_Database)
+        self.main_widget_layout.addWidget(purlin_designer)
+        index = self.tab_bar.currentIndex()
+        self.tab_bar.setTabText(index, title)
+        # Show docking Icons
+        self.tab_widget_content[index][1] = True
+        current_tab_data = self.tab_widget_content[index]
+        self.update_docking_icons(current_tab_data[1], current_tab_data[2], current_tab_data[3], current_tab_data[4])
+
     def open_home_page(self, module):
         self.clear_layout(self.main_widget_layout)
         home_window = HomeWindow()

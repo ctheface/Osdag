@@ -64,7 +64,14 @@ class Data:
         "3D Frame": 
         [],
         "Group Design": 
-        []
+        [],
+        # ----Plugins----
+        "Add-Ons": 
+        [
+            ("Foundation Designer", ":/vectors/IITB_logo.svg"),
+            ("Purlin Designer", ":/vectors/IITB_logo.svg"),
+            ("Steel Designer", ":/vectors/IITB_logo.svg"),
+        ]
     }
     
     NAVBAR_ICONS = {
@@ -78,6 +85,7 @@ class Data:
         "2D Frame": [":/images/2d_frame.png", ":/images/2d_frame_clicked.png"],
         "3D Frame": [":/images/3d_frame.png", ":/images/3d_frame_clicked.png"],
         "Group Design": [":/images/group_design.png", ":/images/group_design_clicked.png"],
+        "Add-Ons": [":/images/add_ons.png", ":/images/add_ons_clicked.png"]
     }
 
     FLOATING_NAVBAR = [
