@@ -253,8 +253,6 @@ MODULE_MAP = {
     KEY_DISP_PLATE_GIRDER_WELDED: ['Plate Girder', 'Flexural Members', 'None'],
     #---------Flexural-Member-end------------------------------------------------------
 
-    # ----------------------------Add-ons-Start-------------------------------------
-    KEY_DISP_FLEXURE4: ['Purlin Designer', 'Add-Ons', 'open_purlin_designer_page'],
 }
 
 # To retrieve the name of a module function that can open the required module

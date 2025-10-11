@@ -525,6 +525,7 @@ class HomeWindow(QWidget):
     def _open_plugin_manager(self):
         from osdag_gui.ui.components.dialogs.plugin_manager_dialog import PluginManagerDialog
         self.plugin_manager_dialog = PluginManagerDialog(parent=self)
+        app
         print(f"Opening Plugin Manager")
         self.plugin_manager_dialog.show()
 
