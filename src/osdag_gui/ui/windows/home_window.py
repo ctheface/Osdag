@@ -523,9 +523,7 @@ class HomeWindow(QWidget):
         self.nav_bar.set_active_button_by_name(module)
 
     def _open_plugin_manager(self):
-        from osdag_gui.ui.components.dialogs.plugin_manager_dialog import PluginManagerDialog
-        self.plugin_manager_dialog = PluginManagerDialog(parent=self)
-        app
+        self.plugin_manager_dialog = QApplication.instance().plugin_manager_dialog
         print(f"Opening Plugin Manager")
         self.plugin_manager_dialog.show()
 

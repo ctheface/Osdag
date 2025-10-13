@@ -136,6 +136,18 @@ def GUI():
     font = QFontDatabase.applicationFontFamilies(fid)[0]
     # app.setFont(QFont(font))
 
+    # ====== Plugin Manager ======
+    print("\n[INFO] Initializing Plugin Management System...")
+    from osdag_core.utils.plugin_manager import PluginManager
+    from osdag_gui.ui.components.dialogs.plugin_manager_dialog import PluginManagerDialog
+    if not hasattr(app, "plugin_manager"):
+        app.plugin_manager = PluginManager()
+    if not hasattr(app, "plugin_manager_dialog"):
+        app.plugin_manager_dialog = PluginManagerDialog()
+    print("[INFO] Plugin Management System initialized.\n")
+    
+    # ============================
+
     file = QFile(":/themes/lightstyle.qss")
     if file.open(QFile.ReadOnly | QFile.Text):
         stream = QTextStream(file)
