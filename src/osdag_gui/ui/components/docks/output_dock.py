@@ -28,6 +28,7 @@ from osdag_core.design_type.connection.cleat_angle_connection import CleatAngleC
 from osdag_core.design_type.connection.end_plate_connection import EndPlateConnection
 from osdag_core.design_type.connection.beam_cover_plate_weld import BeamCoverPlateWeld
 from osdag_core.design_type.connection.beam_cover_plate import BeamCoverPlate
+from osdag_core.design_type.compression_member.Column import ColumnDesign
 
 # Spacing Detail
 from osdag_gui.ui.components.output_details.b2bCoverPlateWelded import B2BCoverPlateWeldedDetails
@@ -573,7 +574,6 @@ class OutputDock(QWidget):
         button.clicked.connect(lambda: self.spacing_dialog(self.backend, spacing_button_list, button))
 
     def spacing_dialog(self, main, button_list, button):
-
         for op in button_list:
             tup = op[3]
             title = tup[0]
@@ -581,6 +581,7 @@ class OutputDock(QWidget):
             if op[0] == button.objectName():
                 if op[0]==KEY_OUT_SPACING or op[0]==KEY_OUT_SPTING_SPACING:
                     # print(main)
+                    flag_legacyspacing = False 
                     if main.module_name()==KEY_DISP_FINPLATE:
                         if hasattr(self.backend, 'spting_leg') and \
                             hasattr(self.backend.spting_leg, 'bolt_line') and \
@@ -598,8 +599,11 @@ class OutputDock(QWidget):
                         self.run_spacing_script(0,0,EndPlateDetails,main)
                     elif main.module_name()==KEY_DISP_TENSION_BOLTED:
                         self.run_spacing_script(0,0,TensionBoltedDetails, main)
-                    # return
-                    break
+                    else :
+                        flag_legacyspacing = True
+
+                    if not flag_legacyspacing:
+                        return            
                 
                 elif ((op[0]=='button1' or op[0]=='button2') and op[3][0]==KEY_OUT_DISP_BOLT_IR_DETAILS and main.module_name()==KEY_DISP_FINPLATE) :
                     if main.module_name()==KEY_DISP_FINPLATE:

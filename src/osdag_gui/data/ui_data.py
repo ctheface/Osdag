@@ -8,6 +8,13 @@ class Data:
         "Home": [],
         "Connection" :
         {
+            "Simple Connection":
+            [
+                ("Lap Joint Bolted",  ":/vectors/lap_joint_bolted_simple_connec.svg"),
+                ("Lap Joint Welded",  ":/vectors/lap_joint_welded_simple_connec.svg"),
+                ("Butt Joint Bolted", ":/vectors/butt_joint_bolted_simple_connec.svg"),
+                ("Butt Joint Welded", ":/vectors/butt_joint_welded_simple_connec.svg")
+            ],
             "Shear Connection":
             [
                 ("Fin Plate",":/vectors/shear_fin_plate_connec.svg"),
@@ -20,7 +27,7 @@ class Data:
                     [
                         ("Cover Plate Bolted", ":/vectors/cover_plate_bolted_btb_moment_connec.svg"),
                         ("Cover Plate Welded", ":/vectors/cover_plate_welded_btb_moment_connec.svg"),
-                        ("End Plate", ":/vectors/end_plate_btb_moment_connec.svg")
+                        ("Beam Beam End Plate", ":/vectors/end_plate_btb_moment_connec.svg")
                     ],
                     "Beam to Column": 
                     [
@@ -28,9 +35,9 @@ class Data:
                     ],
                     "Column to Column": 
                     [
-                        ("Cover Plate Bolted", ":/vectors/cover_plate_bolted_ctc_moment_connec.svg"),
-                        ("Cover Plate Welded", ":/vectors/cover_plate_welded_ctc_moment_connec.svg"),
-                        ("End Plate", ":/vectors/end_plate_ctc_moment_connec.svg")
+                        ("Column Cover Plate Bolted", ":/vectors/cover_plate_bolted_ctc_moment_connec.svg"),
+                        ("Column Cover Plate Welded", ":/vectors/cover_plate_welded_ctc_moment_connec.svg"),
+                        ("Column End Plate", ":/vectors/end_plate_ctc_moment_connec.svg")
                     ],
                     "PEB": []
                 },
@@ -47,7 +54,8 @@ class Data:
         ],
         "Compression Member": 
         [
-            ("Struts in Trusses", ":/vectors/struts_in_trusses_compression_mem.svg")
+            ("Struts in Trusses", ":/vectors/struts_in_trusses_compression_mem.svg"),
+            ("Column", ":/vectors/column_design_compression_mem.svg"),
         ],
         "Flexural Member": 
         [
